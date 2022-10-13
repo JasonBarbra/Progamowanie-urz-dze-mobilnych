@@ -2,19 +2,24 @@ var c = document.getElementById("firstCanvas");
 var ctx = c.getContext("2d");
 
 let style = "#00FF00";
+let j = 0;
 
-//Gradient
-var grd = ctx.createLinearGradient(0, 0, 200, 0);
-grd.addColorStop(0, "green");
-grd.addColorStop(1, "blue");
-ctx.arc(100, 200, 60, 0, 2 * Math.PI);
-//
+const ball = {
+  x: 25,
+  y: 25,
+};
+const velocity = 3;
+const startingAngle = 0;
+const rad = 20;
 
-ctx.fillStyle = grd;
-ctx.beginPath();
-ctx.arc(100, 200, 60, 0, 2 * Math.PI);
-
-ctx.fill();
+setInterval(() => {
+  for (let i = j; i < 255; i++) {
+    ctx.beginPath();
+    ctx.fillStyle = `rgb(0,${i},${255 - i})`;
+    ctx.arc(100, 200, 60, 0, 2 * Math.PI);
+    ctx.fill();
+  }
+}, 200);
 
 setInterval(() => {
   ctx.beginPath();
@@ -27,5 +32,12 @@ setInterval(() => {
   }
   ctx.arc(400, 300, 60, 0, 2 * Math.PI);
   ctx.fill();
-  ctx.endPath();
 }, [1000]);
+
+const drawMe = () => {
+  ctx.beginPath();
+  ctx.fillStyle = "green";
+  ctx.arc(ball.x, ball.y, rad, 0, Math.PI / 2);
+  ctx.fill();
+  ctx.closePath();
+};
