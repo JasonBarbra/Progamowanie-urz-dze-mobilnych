@@ -6,20 +6,34 @@ let j = 0;
 
 const ball = {
   x: 400,
-  y: 0,
+  y: 20,
 };
-const velocity = 3;
 
-let moveY = 5;
+let up = false;
+let i = 0;
+let toGreen = true;
+
+const drawCircle = () => {
+  ctx.beginPath();
+  ctx.fillStyle = `rgb(0,${i},${255 - i})`;
+  ctx.arc(100, 200, 60, 0, 2 * Math.PI);
+  ctx.fill();
+  if (toGreen) {
+    i++;
+    if (i === 255) {
+      toGreen = false;
+    }
+  } else {
+    i--;
+    if (i === 0) {
+      toGreen = true;
+    }
+  }
+};
 
 setInterval(() => {
-  for (let i = j; i < 255; i++) {
-    ctx.beginPath();
-    ctx.fillStyle = `(0,${i},${255 - i})`;
-    ctx.arc(100, 200, 60, 0, 2 * Math.PI);
-    ctx.fill();
-  }
-}, 200);
+  drawCircle();
+}, 20);
 
 setInterval(() => {
   ctx.beginPath();
@@ -36,13 +50,19 @@ setInterval(() => {
 
 const drawMe = () => {
   ctx.clearRect(350, 0, 300, 600);
-  if (ball.y >= 0) {
-    ball.y += 5;
-  } else {
+  if (up) {
     ball.y -= 5;
+    if (ball.y === 20) {
+      up = false;
+    }
+  } else {
+    ball.y += 5;
+    if (ball.y === 400) {
+      up = true;
+    }
   }
   ctx.beginPath();
-  ctx.fillStyle = "green";
+  ctx.fillStyle = `rgb(0,${i},${255 - i})`;
   ctx.arc(ball.x, ball.y, 20, 0, Math.PI * 2);
   ctx.fill();
   ctx.closePath();
